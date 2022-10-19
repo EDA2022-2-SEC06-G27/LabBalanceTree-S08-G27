@@ -32,9 +32,9 @@ Este repositorio forma parte del marco docente de estructura de datos y algoritm
 
 Los estudiantes editan esta sección para agregar sus nombres, correos electrónicos de Uniandes y especificar qué funcionalidad de proyecto implementarán.
 
-1. Nombre del estudiante No. 1, Correo electrónico del estudiante No. 1 Uniandes, Funcionalidad propiedad del estudiante No. 1.
-1. Nombre del estudiante No. 2, Correo electrónico del estudiante No. 2 Uniandes, Funcionalidad propiedad del estudiante No. 2.
-1. Nombre del estudiante No. 3, Correo electrónico del estudiante No. 3 Uniandes, Funcionalidad propiedad del estudiante No. 3.
+1. Daniel Felipe Torres Lopez, 202110365, d.torresl@unuandes.edu.co
+2. Santiago Bernal G, 202115057, s.bernalg2@uniandes.edu.co
+3. Pedro Fabian Bello zamudio, 202120080, p.bello@uniandes.edu.co
 
 [Volver al inicio](#sample-tree)
 

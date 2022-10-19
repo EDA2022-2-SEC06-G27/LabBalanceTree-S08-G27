@@ -58,7 +58,9 @@ def newAnalyzer():
                 }
 
     analyzer["crimes"] = lt.newList("SINGLE_LINKED", compareIds)
-    analyzer["dateIndex"] = om.newMap(omaptype="BST",
+    analyzer['dateIndex'] = om.newMap(omaptype='RBT',
+                                        comparefunction=compareDates)
+    analyzer['areaIndex'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareDates)
     # TODO lab 9, crear el indice ordenado por areas reportadas
     return analyzer
@@ -73,6 +75,7 @@ def addCrime(analyzer, crime):
     """
     lt.addLast(analyzer["crimes"], crime)
     updateDateIndex(analyzer["dateIndex"], crime)
+    updateAreaIndex(analyzer["areaIndex"], crime)
     # TODO lab 9, actualizar el indice por areas reportadas
     return analyzer
 
@@ -91,6 +94,16 @@ def updateAreaIndex(map, crime):
     # revisar si el area ya esta en el indice
 
     # si el area ya esta en el indice, adicionar el crimen a la lista
+    crimearea = crime["REPORTING_AREA"]
+    if crimearea == "" or " " or None:
+        crimearea = 9999
+    entry = om.get(map, crimearea)
+    if entry is None:
+        datentry = newAreaEntry(crime)
+        om.put(map, crimearea, datentry)
+    else:
+        datentry = me.getValue(entry)
+    addAreaIndex(datentry, crime)
     return map
 
 
@@ -99,7 +112,12 @@ def newAreaEntry(crime):
     Crea una entrada para el indice de areas reportadas
     """
     # TODO lab 9, crear una entrada para el indice de areas reportadas
-    entry = {"lstcrimes": None, }
+    entry = {"AreaIndex": None,"lstcrimes": None, }
+    entry["AreaIndex"] = m.newMap(numelements=1000,
+                                     maptype="PROBING",
+                                     comparefunction=compareOffenses)
+    entry["lstcrimes"] = lt.newList("SINGLE_LINKED", compareDates)
+    lt.addLast(entry["lstcrimes"], crime)
     return entry
 
 
@@ -108,6 +126,17 @@ def addAreaIndex(areaentry, crime):
     Adiciona un crimen a la lista de crimenes de un area
     """
     # TODO lab 9, adicionar crimen a la lista de crimenes de un area
+    lst = areaentry["lstcrimes"]
+    lt.addLast(lst, crime)
+    AreaIndex = areaentry["AreaIndex"]
+    offentry = m.get(AreaIndex, crime["OFFENSE_CODE_GROUP"])
+    if (offentry is None):
+        entry = newOffenseEntry(crime["OFFENSE_CODE_GROUP"], crime)
+        lt.addLast(entry["lstoffenses"], crime)
+        m.put(AreaIndex, crime["OFFENSE_CODE_GROUP"], entry)
+    else:
+        entry = me.getValue(offentry)
+        lt.addLast(entry["lstoffenses"], crime)
     return areaentry
 
 
